@@ -2,7 +2,6 @@
 
 using namespace std;
 
-const int MAX = 1 << 20;
 int tam;
 
 struct cliente
@@ -10,10 +9,10 @@ struct cliente
     string nome, cpf;
 };
 
-cliente* criar()
+cliente* criar(const int max = 1 << 20)
 {
     cliente *lista;
-    lista = (cliente*)(malloc(MAX));
+    lista = (cliente*)(malloc(max*sizeof(cliente*)));
     return lista;
 }
 
@@ -56,15 +55,10 @@ void deletar(cliente *lista)
 int main()
 {
     cliente *lista = criar();
-    cliente c1, c2, c3;
-    c1.nome = "alguem", c1.cpf = "123456789";
-    inserir(lista, c1, 0);
-    c2.nome = "mais alguem", c2.cpf = "912345678";
-    inserir(lista, c2, 0);
-    c1.nome = "alem de mais alguem", c1.cpf = "891234567";
-    inserir(lista, c3, 0);
+    cliente c;
+    c.nome = "sidney", c.cpf = "123456789";
+    inserir(lista, c, 0);
     cout << lista[0].nome << '\n';
-    cout << buscar(lista, c2) << '\n';
     cliente r = remover(lista, 0);
     cout << lista[0].nome << '\n';
     deletar(lista);

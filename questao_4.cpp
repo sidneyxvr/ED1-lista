@@ -2,7 +2,6 @@
 
 using namespace std;
 
-const int MAX = 1 << 20;
 int tam;
 
 struct cliente
@@ -10,10 +9,10 @@ struct cliente
     string nome, cpf;
 };
 
-cliente* criar()
+cliente* criar(const int max = 1 << 20)
 {
     cliente *lista;
-    lista = (cliente*)(malloc(MAX));
+    lista = (cliente*)(malloc(max*sizeof(cliente*)));
     return lista;
 }
 
