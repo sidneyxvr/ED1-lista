@@ -31,17 +31,25 @@ cliente remover(cliente *head)
         head->next = nullptr;
     else
         head->next = aux->next;
+    delete(aux);
     return r;
 }
 
 void deletar(cliente *head)
 {
-
+	cliente *aux = head;
+    while(aux->next != nullptr)
+        aux = aux->next, delete(head), head = aux->next;
 }
 
 int main()
 {
-    
+    cliente *head = criar();
+    inserir(head, "juba", "0000000");
+    inserir(head, "matheusa", "242424");
+    cout << remover(head).nome << '\n';
+    cout << remover(head).nome << '\n';
+    deletar(head);
 
     return 0;
 }

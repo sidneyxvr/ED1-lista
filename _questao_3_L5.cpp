@@ -26,26 +26,28 @@ void inserir(cliente *head, string nome, string cpf)
 
 cliente remover(cliente *head)
 {
-    cliente *aux = head->next, r;
-    if(aux->next == nullptr)
-    {
-        r = *aux, head->next = nullptr;
-        return r;
-    }
+    cliente *aux = head, r;
     while(aux->next->next != nullptr)
         aux = aux->next;
-    r = *aux->next, aux->next = nullptr;
+    r = *aux->next, delete(aux->next), aux->next = nullptr;
     return r;
 }
 
 void deletar(cliente *head)
 {
-
+	cliente *aux = head;
+    while(aux->next != nullptr)
+        aux = aux->next, delete(head), head = aux->next;
 }
 
 int main()
 {
-    
+    cliente *head = criar();
+    inserir(head, "juba", "0000000");
+    inserir(head, "matheusa", "242424");
+    cout << remover(head).nome << '\n';
+    cout << remover(head).nome << '\n';
+    deletar(head);
     
     return 0;
 }

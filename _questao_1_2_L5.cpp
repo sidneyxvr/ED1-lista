@@ -1,3 +1,6 @@
+/*	todas as questões da lista 5 os índices são iniciados a partir de 1,
+	logo na função remove(head, 1) o elemento removido será o primeiro da lista
+*/
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -22,27 +25,29 @@ void inserir(cliente *head, string nome, string cpf, int pos)
     int i = 1;
     while(i < pos and aux->next != nullptr)
         aux = aux->next, i++;
-    if(!aux->next)
+    if(aux->next == nullptr)
         aux->next = c;
     else
         c->next = aux->next, aux->next = c;
-
 }
 
 cliente remover(cliente *head, int pos)
 {
-    cliente *aux = head, r;
-    int i = 1;
-    while(i < pos - 1 and aux->next)
+    cliente *aux = head, r, *k;
+    int i = 1;	
+    while(i < pos and aux->next)
         aux = aux->next, i++;
-    if(!aux->next->next)
-        r = *(aux->next), free(aux->next), aux->next = nullptr;
+    r = *(aux->next);
+    if(aux->next->next == nullptr)
+        aux->next = nullptr, delete(aux->next);
+    else
+    	k = aux->next->next, delete(aux->next), aux->next = k;
     return r;
 }
 
 int buscar(cliente *head, string cpf)
 {
-    cliente *aux = head;
+    cliente *aux = head->next;
     int i = 1;
     while(aux->cpf != cpf)
         aux = aux->next, i++;
@@ -50,22 +55,30 @@ int buscar(cliente *head, string cpf)
 }
 
 
-void imprimir(cliente *head)
+void listar(cliente *head)
 {
-    cliente aux = *head;
-    while(aux.next != nullptr)
-        cout << aux.nome << ' ' << aux.cpf << '\n';
+    cliente *aux = head->next;
+    while(aux != nullptr)
+        cout << aux->nome << ' ' << aux->cpf << '\n', aux = aux->next;
 }
 
 void deletar(cliente *head)
 {
     cliente *aux = head;
     while(aux->next != nullptr)
-        aux = aux->next, free(head), head = aux->next;
+        aux = aux->next, delete(head), head = aux->next;
 }
 
 int main()
 {
+	cliente *head = criar();
+	inserir(head, "juba", "00000000", 1);
+	inserir(head, "matheusa", "24242424", 1);
+	listar(head);
+	cout << buscar(head, "24242424") << '\n';
+	cout << remover(head, 1).nome << '\n';
+	listar(head);
+	deletar(head);
 
     return 0;
 }

@@ -62,11 +62,19 @@ void listar(cliente *head)
 
 void deletar(cliente *head)
 {
-    delete[] head;
+	cliente *aux = head;
+    while(aux->next != nullptr)
+        aux = aux->next, delete(head), head = aux->next;
 }
 
 int main()
 {
-
+	cliente *head = criar();
+	inserir(head, "juba", "00000000", 1);
+	inserir(head, "matheusa", "242424", 1);
+	cout << remover(head, 1).nome << '\n';
+	cout << remover(head, 1).nome << '\n';
+	deletar(head);
+	
     return 0;
 }

@@ -5,40 +5,41 @@ using namespace std;
 struct cliente
 {
     string nome, cpf;
-    cliente *next, *prev;
-    cliente(string _nome, string _cpf){nome = _nome, cpf = _cpf, next = nullptr, prev = nullptr;}
-    cliente(){next = nullptr, prev = nullptr;}
+    cliente *next;
+    cliente(string _nome, string _cpf, cliente *head){nome = _nome, cpf = _cpf, next = head;}
+    cliente(){}
 };
 
 cliente* criar()
 {
     cliente *head = new cliente();
+    head->next = head;
     return head;
 }
 
 void inserir(cliente *head, string nome, string cpf, int pos)
 {
-    cliente *aux = head, *c = new cliente(nome, cpf);
+    cliente *aux = head, *c = new cliente(nome, cpf, head);
     int i = 1;
-    while(i < pos)
+    while(i < pos and aux->next != head)
         aux = aux->next, i++;
     if(aux->next == head)
-        aux->next = c, c->prev = aux, c->next = head;
+        aux->next = c;
     else
-        c->next = aux->next, c->next->prev = c, aux->next = c, c->prev = aux;
+        c->next = aux->next, aux->next = c;
 }
 
 cliente remover(cliente *head, int pos)
 {
-    cliente *aux = head->next, r;
+    cliente *aux = head, r, *k;
     int i = 1;
     while(i < pos)
         aux = aux->next, i++;
-    r = *aux;
-    if(aux->next == head)
-        aux->prev->next = head;
+    r = *(aux->next);
+    if(aux->next->next == head)
+        delete(aux->next), aux->next = head;
     else
-        aux->prev->next = aux->next, aux->next->prev = aux->prev;
+        k = aux->next, aux->next = aux->next->next, delete(k);
     return r;
 }
 
@@ -48,13 +49,12 @@ int buscar(cliente *head, string cpf)
     int i = 1;
     while(aux->cpf != cpf)
     {
-        if(aux != head)
-            return -1;
         aux = aux->next, i++;
+        if(aux == head)
+            return -1;
     }
     return i;
 }
-
 
 void listar(cliente *head)
 {
@@ -63,9 +63,23 @@ void listar(cliente *head)
         cout << aux->nome << '\n', aux = aux->next;
 }
 
+void deletar(cliente *head)
+{	
+	cliente *aux = head, *r = head;
+    while(aux->next != r)
+        aux = aux->next, delete(head), head = aux->next;
+}
+
 int main()
 {
-    
-
+	cliente *head = criar();
+	inserir(head, "juba", "0000000", 1);
+	inserir(head, "matheusa", "242424", 1);
+	listar(head);
+	cout << buscar(head, "00000004") << '\n';
+	cout << remover(head, 1).nome << '\n';
+	cout << remover(head, 1).nome << '\n';
+	deletar(head);
+	
     return 0;
 }
