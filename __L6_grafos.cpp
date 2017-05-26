@@ -1,5 +1,4 @@
-#include <iostream>
-using namespace std;
+#include <bits/stdc++.h>
 
 struct Node
 {
@@ -53,42 +52,31 @@ void clean(begin *head, int n)
 
 void show(begin *head, int n)
 {
-    cout << "LISTA DE ADJACENCIA:" << '\n';
     for(int i = 0; i < n; i++)
     {
-        cout << i << ": ";
+        std::cout << i << ": ";
         for(Node *aux = head[i].adj->next; aux != nullptr; aux = aux->next)
-            cout << aux->value << ' ';
-        cout << '\n';
+            std::cout << aux->value << ' ';
+        std::cout << '\n';
     }
 }
 
 int main()
 {
-    int n, m, v, w;
-
-    cin >> n >> m;
-    begin *head = create(n);
-
-    while(m--)
-    {
-        cin >> v >> w;
-        insert(head, v, w);
-        insert(head, w, v);
-    }
-
-    show(head, n);
-
-    cout << '\n';
-
-    for(int i = 0; i < n; i++)
+    begin *head = create(3);
+    insert(head, 0, 2);
+    insert(head, 2, 0);
+    insert(head, 0, 1);
+    insert(head, 1, 0);
+    insert(head, 1, 2);
+    insert(head, 2, 1);
+    show(head, 3);
+    int ans = 0;
+    for(int i = 0; i < 3; i++)
         if(!head[i].flag)
-        int ans = 0;
             dfs(head, i), ans++;
-
-    cout << "a quantidade de componentes conexas do grafo eh " << ans <<'\n';
-
-    clean(head, n);
+    std::cout << ans << '\n';
+    clean(head, 3);
 
     return 0;
 }

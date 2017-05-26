@@ -1,12 +1,10 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
 struct Node
 {
-    string name;
+    std::string name;
     Node *next;
-    Node(Node *head, string _name){name = _name, next = head;}
+    Node(Node *head, std::string _name){name = _name, next = head;}
     Node(){next = nullptr;}
 };
 
@@ -17,7 +15,7 @@ Node* create()
     return head;
 }
 
-void inserir(Node *head, string name, int pos)
+void insert(Node *head, std::string name, int pos)
 {
     Node *aux;
     int i = 0;
@@ -52,26 +50,21 @@ void clean(Node *head){
     delete(aux2);
 }
 
-string josephus(Node *head, int n, int m)
+std::string josephus(Node *head, int n, int m)
 {
     int c = 0, i;
     Node *aux = head;
     while(n != 1)
     {
         if(aux == head)
-        {
-            i = -1;
-            aux = aux->next;
-        }
+            i = -1, aux = aux->next;
         else
         {
             i++, c++;
             if(c == m)
             {
                 Node r = remove(head, i);
-                n--;
-                i--;
-                c = 0;
+                n--, i--, c = 0;
                 aux = r.next;
             }else
                 aux = aux->next;
@@ -80,21 +73,15 @@ string josephus(Node *head, int n, int m)
     return head->next->name;
 }
 
-int main(){
+int main()
+{
     Node *head = create();
-    string str;
-    int n, m;
-
-    cin >> n >> m;
-    cin.ignore();
-    for(int i = 0; i < n; i++)
-    {
-        getline(cin, str);
-        inserir(head, str, i);
-    }
-
-    cout << josephus(head, n, m) << '\n';
-
+    insert(head, "Poisson", 0);
+    insert(head, "Bernoulli", 1);
+    insert(head, "Newton", 2);
+    insert(head, "Einsten", 3);
+    insert(head, "Morgado", 4);
+    std::cout << josephus(head, 5, 2) << '\n';
     clean(head);
 
     return 0;
